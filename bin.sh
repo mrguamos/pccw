@@ -9,7 +9,7 @@ function build() {
 # Function to start Docker Compose
 function start() {
   echo "Starting Docker Compose..."
-  docker-compose up -d
+  docker-compose up
 }
 
 function stop() {
