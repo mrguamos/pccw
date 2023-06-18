@@ -15,3 +15,6 @@
 ## How to stop
 
 ``./bin.sh stop``
+
+## API Documentation
+``http://localhost:8080/swagger-ui/index.html``
