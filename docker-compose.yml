@@ -1,13 +1,13 @@
 version: '3.8'
 
 services:
-  app:
+  backend:
     image: 'pccw-backend:latest'
     ports:
       - "8080:8080"
     build:
-      context: .
-    container_name: app
+      context: ./backend
+    container_name: pccw-backend
     depends_on:
       - db
     environment:
@@ -22,3 +22,14 @@ services:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=adminadmin
       - POSTGRES_DB=pccw
+  frontend:
+    image: 'pccw-frontend:latest'
+    ports:
+      - "3000:3000"
+    build:
+      context: ./frontend
+    container_name: pccw-frontend
+    depends_on:
+      - db
+    environment:
+      - API_HOST=backend
