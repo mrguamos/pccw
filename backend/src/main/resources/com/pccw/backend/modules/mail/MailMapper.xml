@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pccw.backend.modules.mail.MailMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="entity.id">
+        INSERT INTO mng.email (
+        recipient,
+        subject,
+        content
+        )
+        VALUES (
+        #{entity.recipient},
+        #{entity.subject},
+        #{entity.content}
+        )
+    </insert>
+</mapper>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pccw.backend.modules.user.UserMapper">
+
+    <resultMap id="userMap" type="com.pccw.backend.modules.user.User" autoMapping="true">
+        <id column="id" property="id"/>
+        <association property="name" autoMapping="true" javaType="com.pccw.backend.modules.user.Name"/>
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="entity.id">
+        INSERT INTO mng.user (
+        username,
+        password,
+        email,
+        first_name,
+        middle_name,
+        last_name
+        )
+        VALUES (
+        #{entity.username},
+        #{entity.password},
+        #{entity.email},
+        #{entity.name.firstName},
+        #{entity.name.middleName},
+        #{entity.name.lastName}
+        )
+    </insert>
+    <update id="update">
+        UPDATE mng.user
+        SET
+        first_name = #{entity.name.firstName},
+        middle_name = #{entity.name.middleName},
+        last_name = #{entity.name.lastName},
+        updated_at = #{__updatedAt}
+        WHERE id = #{userId}
+    </update>
+    <select id="findByCriteria" resultMap="userMap">
+        SELECT u.* from mng.user_active u
+        <include refid="where">
+            <property name="alias" value="u"/>
+        </include>
+        <if test="criteria.pageRequest != null">
+            LIMIT #{criteria.pageRequest.limit}
+            OFFSET #{criteria.pageRequest.page} * #{criteria.pageRequest.limit}
+        </if>
+    </select>
+    <select id="countByCriteria" resultType="Long">
+        SELECT count(*) from mng.user_active u
+        <include refid="where">
+            <property name="alias" value="u"/>
+        </include>
+    </select>
+    <sql id="where">
+        <where>
+            <if test="criteria.username != null and criteria.username != ''">
+                AND LOWER(${alias}.username) = LOWER(#{criteria.username})
+            </if>
+            <if test="criteria.email != null and criteria.email != ''">
+                AND ${alias}.email = LOWER(#{criteria.email})
+            </if>
+            <if test="criteria.firstName != null and criteria.firstName != ''">
+                AND ${alias}.first_name = LOWER(#{criteria.firstName})
+            </if>
+            <if test="criteria.middleName != null and criteria.middleName != ''">
+                AND ${alias}.middle_name = LOWER(#{criteria.middleName})
+            </if>
+            <if test="criteria.lastName != null and criteria.lastName != ''">
+                AND ${alias}.last_name = LOWER(#{criteria.lastName})
+            </if>
+        </where>
+    </sql>
+    <select id="findById" resultMap="userMap">
+        SELECT u.* from mng.user_active u
+        WHERE u.id = #{userId}
+    </select>
+    <update id="delete">
+        UPDATE mng.user
+        SET
+        t_active = false,
+        updated_at = #{__updatedAt}
+        WHERE id = #{userId}
+    </update>
+    <select id="usernameExists" resultType="Boolean">
+        SELECT EXISTS(
+        SELECT 1
+        FROM mng.user
+        WHERE username = #{username}
+        )
+    </select>
+    <select id="emailExists" resultType="Boolean">
+        SELECT EXISTS(
+        SELECT 1
+        FROM mng.user
+        WHERE email = #{email}
+        )
+    </select>
+</mapper>
