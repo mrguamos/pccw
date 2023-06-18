@@ -1,7 +1,9 @@
 package com.pccw.backend.modules.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pccw.backend.utils.Patterns;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.AssertTrue;
 import lombok.Builder;
 import lombok.Data;
@@ -12,8 +14,11 @@ import org.apache.commons.lang3.StringUtils;
 @NoArgsConstructor
 public class Name {
 
+    @Schema(description = "First name", example = "Lorem", requiredMode = Schema.RequiredMode.REQUIRED)
     private String firstName;
+    @Schema(description = "Middle name", example = "Melor", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String middleName;
+    @Schema(description = "Last name", example = "Ipsum", requiredMode = Schema.RequiredMode.REQUIRED)
     private String lastName;
 
     @Builder
@@ -44,6 +49,7 @@ public class Name {
         return StringUtils.isNotEmpty(this.lastName) && Patterns.namePattern.matcher(this.lastName).matches();
     }
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public String getEffectiveName() {
         return String.format("%s %s %s",
                 this.firstName,

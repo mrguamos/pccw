@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.pccw.backend.utils.Patterns;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
 import lombok.Builder;
@@ -20,15 +21,22 @@ import java.time.LocalDateTime;
 public class User implements Serializable {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @Schema(description = "Generated ID of the User", example = "1", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Long id;
     @Valid
     @JsonUnwrapped
     private Name name;
+    @Schema(description = "Username", example = "username", requiredMode = Schema.RequiredMode.REQUIRED)
     private String username;
     @JsonIgnore
     private String password;
+    @Schema(description = "Email of the user", example = "email@gmail.com", requiredMode = Schema.RequiredMode.REQUIRED)
     private String email;
+    @Schema(description = "Status of the user", example = "Verified", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private boolean status;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @Schema(description = "Registration time", example = "2023-06-18 18:16:44.970", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private LocalDateTime registrationTime;
 
     @Builder
