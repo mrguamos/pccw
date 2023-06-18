@@ -18,3 +18,8 @@
 
 ## API Documentation
 ``http://localhost:8080/swagger-ui/index.html``
+
+## View messages from fake SMTP
+``https://ethereal.email``  
+``username=jedidiah78@ethereal.email``  
+``password=Ajugv4GnAfSUsg6xbY``
