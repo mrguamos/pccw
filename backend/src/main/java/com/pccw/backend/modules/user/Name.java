@@ -5,13 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pccw.backend.utils.Patterns;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.AssertTrue;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 
 @Data
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Name {
 
     @Schema(description = "First name", example = "Lorem", requiredMode = Schema.RequiredMode.REQUIRED)
@@ -20,13 +20,6 @@ public class Name {
     private String middleName;
     @Schema(description = "Last name", example = "Ipsum", requiredMode = Schema.RequiredMode.REQUIRED)
     private String lastName;
-
-    @Builder
-    public Name(String firstName, String middleName, String lastName) {
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-    }
 
     @AssertTrue(message = "Invalid first name")
     @JsonIgnore

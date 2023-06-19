@@ -7,9 +7,7 @@ import com.pccw.backend.utils.Patterns;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
@@ -18,6 +16,8 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class User implements Serializable {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -38,17 +38,6 @@ public class User implements Serializable {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Schema(description = "Registration time", example = "2023-06-18 18:16:44.970", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private LocalDateTime registrationTime;
-
-    @Builder
-    public User(Long id, Name name, String username, String password, String email, boolean status, LocalDateTime registrationTime) {
-        this.id = id;
-        this.name = name;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.status = status;
-        this.registrationTime = registrationTime;
-    }
 
     @AssertTrue(message = "Invalid Username")
     @JsonIgnore
